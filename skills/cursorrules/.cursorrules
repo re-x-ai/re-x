@@ -1,0 +1,48 @@
+## Regex Workflow
+
+When generating or modifying regex patterns, use the `re-x` CLI tool to verify:
+
+1. After generating a regex: `re-x test 'pattern' 'sample input'`
+2. Before committing regex changes: `re-x validate 'pattern'`
+3. For user-facing input validation: `re-x benchmark 'pattern' --input 'adversarial input'`
+
+All re-x commands output JSON by default. Parse the `matched` and `match_count` fields to verify correctness.
+
+### Quick Reference
+
+```bash
+# Test pattern
+re-x test '\d{3}-\d{4}' '123-4567'
+
+# Check syntax and portability
+re-x validate '(?<=\d{3})\w+'
+
+# Explain complex regex
+re-x explain '^https?://[^/]+'
+
+# Generate from examples
+re-x from-examples 'user@a.com' 'admin@b.org'
+
+# Apply replacement to file (with backup)
+re-x apply 'old' 'new' --file path/to/file.txt
+re-x apply 'old' 'new' --file path/to/file.txt --dry-run
+
+# Check for ReDoS
+re-x benchmark '(a+)+$'
+```
+
+### Validation Cycle
+
+1. Generate regex pattern
+2. `re-x validate 'pattern'` — check syntax
+3. `re-x test 'pattern' 'test data'` — verify behavior
+4. If issues, fix pattern and return to step 2
+5. `re-x validate 'pattern' --target-lang <lang>` — check portability
+6. Commit code
+
+### Common Patterns
+
+- Email: `re-x test '\b[\w.-]+@[\w.-]+\.\w+\b' 'user@example.com'`
+- Date: `re-x test '\d{4}-\d{2}-\d{2}' '2024-01-15'`
+- URL: `re-x test 'https?://[^\s]+' 'Visit https://example.com'`
+- Phone: `re-x test '\(\d{3}\)\s*\d{3}-\d{4}' '(555) 123-4567'`
