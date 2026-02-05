@@ -455,7 +455,7 @@ fn expand_replacement(replacement: &str, caps: &fancy_regex::Captures) -> String
                 Some(&d) if d.is_ascii_digit() => {
                     // $1, $2, etc.
                     chars.next();
-                    let group_num: usize = d.to_digit(10).unwrap() as usize;
+                    let group_num = d.to_digit(10).unwrap_or(0) as usize;
                     if let Some(m) = caps.get(group_num) {
                         result.push_str(m.as_str());
                     }

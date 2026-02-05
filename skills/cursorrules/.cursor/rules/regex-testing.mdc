@@ -1,0 +1,38 @@
+---
+description: USE WHEN generating, modifying, or debugging regular expressions. Tests, validates, and explains regex using the re-x CLI tool.
+globs:
+alwaysApply: false
+---
+
+## Regex Workflow with re-x
+
+When generating or modifying regex patterns, use `re-x` to verify:
+
+1. `re-x validate 'pattern'` -- check syntax and portability
+2. `re-x test 'pattern' 'sample input'` -- verify behavior
+3. If issues, fix and return to step 1
+4. `re-x validate 'pattern' --target-lang <lang>` -- check target language
+5. `re-x apply 'pat' 'repl' --file path --dry-run` -- preview file changes
+6. Commit
+
+All commands return JSON by default. Parse `matched`, `match_count`, `valid` fields.
+
+### Quick Reference
+
+```bash
+re-x test '\d{3}-\d{4}' '123-4567'                       # Test pattern
+re-x validate '(?<=\d{3})\w+'                             # Check syntax + portability
+re-x explain '^https?://[^/]+'                            # Explain regex
+re-x from-examples 'user@a.com' 'admin@b.org'             # Infer pattern
+re-x replace 'old' 'new' 'input text'                     # Preview replacement
+re-x apply 'old' 'new' --file path.txt                    # Apply to file
+re-x apply 'old' 'new' --file path.txt --dry-run          # Dry-run
+re-x benchmark '(a+)+$'                                   # ReDoS check
+```
+
+### Common Patterns
+
+- Email: `re-x test '\b[\w.-]+@[\w.-]+\.\w+\b' 'user@example.com'`
+- Date: `re-x test '\d{4}-\d{2}-\d{2}' '2024-01-15'`
+- URL: `re-x test 'https?://[^\s]+' 'Visit https://example.com'`
+- Phone: `re-x test '\(\d{3}\)\s*\d{3}-\d{4}' '(555) 123-4567'`
