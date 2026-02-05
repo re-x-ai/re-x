@@ -1,0 +1,70 @@
+name: Bug Report
+description: Report a bug in re-x
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug. Please fill out the sections below.
+
+  - type: input
+    id: version
+    attributes:
+      label: re-x version
+      description: "Output of `re-x --version`"
+      placeholder: "re-x 0.1.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - macOS
+        - Linux
+        - Windows
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: What happened? What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Exact commands to reproduce the bug.
+      placeholder: |
+        1. Run `re-x test 'pattern' 'input'`
+        2. Observe the output
+        3. Expected: ...
+        4. Actual: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: output
+    attributes:
+      label: Actual output
+      description: Paste the full terminal output.
+      render: shell
+
+  - type: dropdown
+    id: integration
+    attributes:
+      label: How are you using re-x?
+      options:
+        - CLI directly
+        - MCP server (Claude Desktop)
+        - MCP server (Claude Code)
+        - CI/CD pipeline
+        - Other
+    validations:
+      required: true

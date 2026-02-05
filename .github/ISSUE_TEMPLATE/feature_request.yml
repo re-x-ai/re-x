@@ -1,0 +1,54 @@
+name: Feature Request
+description: Suggest a new feature or improvement
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your suggestion. Please describe the feature clearly.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or motivation
+      description: What problem does this feature solve? Why is it needed?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How should this feature work? Include example commands or output if possible.
+      placeholder: |
+        ```bash
+        re-x new-command 'pattern' --flag value
+        ```
+        Expected output:
+        ```json
+        { "field": "value" }
+        ```
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - CLI (new command or flag)
+        - MCP server
+        - Output format
+        - Performance
+        - Portability / language support
+        - Documentation
+        - CI/CD / Release
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any other approaches you considered?

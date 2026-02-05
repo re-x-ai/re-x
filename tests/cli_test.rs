@@ -207,6 +207,97 @@ fn test_apply_multiline() {
     assert!(content.contains("REPLACED"));
 }
 
+// --- MCP server tests ---
+
+#[test]
+fn test_mcp_initialize() {
+    let req = r#"{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}"#;
+    re_x()
+        .arg("--mcp")
+        .write_stdin(format!("{}\n", req))
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("\"protocolVersion\""))
+        .stdout(predicate::str::contains("re-x"));
+}
+
+#[test]
+fn test_mcp_tools_list() {
+    let init = r#"{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}"#;
+    let list = r#"{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}"#;
+    re_x()
+        .arg("--mcp")
+        .write_stdin(format!("{}\n{}\n", init, list))
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("regex_test"))
+        .stdout(predicate::str::contains("regex_validate"))
+        .stdout(predicate::str::contains("regex_explain"))
+        .stdout(predicate::str::contains("regex_replace"))
+        .stdout(predicate::str::contains("regex_apply"))
+        .stdout(predicate::str::contains("regex_benchmark"))
+        .stdout(predicate::str::contains("regex_from_examples"));
+}
+
+#[test]
+fn test_mcp_tool_call_test() {
+    let init = r#"{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}"#;
+    let call = r#"{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"regex_test","arguments":{"pattern":"\\d+","input":"hello 123"}}}"#;
+    re_x()
+        .arg("--mcp")
+        .write_stdin(format!("{}\n{}\n", init, call))
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("\\\"matched\\\": true"))
+        .stdout(predicate::str::contains("123"));
+}
+
+#[test]
+fn test_mcp_tool_call_validate() {
+    let init = r#"{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}"#;
+    let call = r#"{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"regex_validate","arguments":{"pattern":"\\d+"}}}"#;
+    re_x()
+        .arg("--mcp")
+        .write_stdin(format!("{}\n{}\n", init, call))
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("\\\"valid\\\": true"));
+}
+
+#[test]
+fn test_mcp_invalid_json() {
+    re_x()
+        .arg("--mcp")
+        .write_stdin("not valid json\n")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("-32700"))
+        .stdout(predicate::str::contains("Parse error"));
+}
+
+#[test]
+fn test_mcp_unknown_method() {
+    let req = r#"{"jsonrpc":"2.0","id":1,"method":"nonexistent","params":{}}"#;
+    re_x()
+        .arg("--mcp")
+        .write_stdin(format!("{}\n", req))
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("-32601"))
+        .stdout(predicate::str::contains("Method not found"));
+}
+
+#[test]
+fn test_mcp_ping() {
+    let req = r#"{"jsonrpc":"2.0","id":1,"method":"ping","params":{}}"#;
+    re_x()
+        .arg("--mcp")
+        .write_stdin(format!("{}\n", req))
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("\"result\""));
+}
+
 // --- replace --file tests ---
 
 #[test]
