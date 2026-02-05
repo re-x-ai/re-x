@@ -19,7 +19,7 @@ full = ["cli", "mcp"]
 [dependencies]
 # Core regex engines
 regex = "1"
-fancy-regex = "0.14"
+fancy-regex = "0.17"
 regex-syntax = "0.8"
 
 # Serialization
