@@ -15,8 +15,8 @@ re-x is an AI-native regex CLI tool written in Rust. It provides structured JSON
 cargo build              # Debug build
 cargo build --release    # Release build
 cargo test               # Run all tests (unit + integration)
-cargo clippy             # Lint
-cargo fmt                # Format
+cargo clippy -- -D warnings  # Lint (zero warnings required)
+cargo fmt                    # Format
 cargo bench              # Run benchmarks
 ```
 

@@ -171,14 +171,14 @@ Claude Code: runs `re-x test '\b[\w.-]+@[\w.-]+\.\w+\b' --file app.log`
 
 ### Skills
 
-Copy `skills/claude-code/SKILL.md` to your project's `.claude/skills/` directory to teach Claude Code when and how to use re-x:
+Copy `skills/regex-testing/SKILL.md` to your project's `.claude/skills/` directory to teach Claude Code when and how to use re-x:
 
 ```bash
-mkdir -p .claude/skills/regex
-cp skills/claude-code/SKILL.md .claude/skills/regex/
+mkdir -p .claude/skills/regex-testing
+cp skills/regex-testing/SKILL.md .claude/skills/regex-testing/
 ```
 
-For Cursor, copy `skills/cursorrules/.cursorrules` to your project root.
+For Cursor, copy `skills/cursorrules/.cursor/rules/regex-testing.mdc` to your project's `.cursor/rules/` directory.
 
 ## Human-Friendly Mode
 
