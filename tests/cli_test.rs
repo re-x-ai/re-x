@@ -5,7 +5,7 @@ use predicates::prelude::*;
 use std::fs;
 
 fn re_x() -> Command {
-    Command::cargo_bin("re-x").unwrap()
+    Command::new(assert_cmd::cargo_bin!("re-x"))
 }
 
 #[test]

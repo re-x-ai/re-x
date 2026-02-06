@@ -74,7 +74,6 @@ fn main() -> ExitCode {
                 replacement,
                 input,
                 file,
-                dry_run: _,
                 max_preview,
                 multiline,
             } => cli::handle_replace(

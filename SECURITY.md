@@ -12,7 +12,7 @@ If you discover a security vulnerability in re-x, please report it responsibly.
 
 **Do NOT open a public issue.**
 
-Instead, email: **security@re-x.dev** (or use [GitHub Security Advisories](https://github.com/re-x-ai/re-x/security/advisories/new))
+Instead, use [GitHub Security Advisories](https://github.com/re-x-ai/re-x/security/advisories/new) to report privately.
 
 Please include:
 - Description of the vulnerability

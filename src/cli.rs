@@ -71,10 +71,6 @@ pub enum Commands {
         #[arg(long, short = 'F')]
         file: Option<PathBuf>,
 
-        /// Dry-run mode (never modify files)
-        #[arg(long)]
-        dry_run: bool,
-
         /// Maximum number of preview lines
         #[arg(long, default_value = "20")]
         max_preview: usize,
