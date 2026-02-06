@@ -87,6 +87,8 @@ pub fn validate_for_language(pattern: &str, target: &str) -> ValidateResult {
             "python_regex" | "regex" => portability.python_regex,
             "go" | "go_regexp" | "golang" => portability.go_regexp,
             "java" => portability.java.unwrap_or(true),
+            "dotnet" | "csharp" | "c#" | ".net" => portability.dotnet,
+            "ruby" | "rb" => portability.ruby,
             _ => true,
         };
 

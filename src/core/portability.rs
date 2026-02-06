@@ -221,6 +221,8 @@ pub fn check_portability(pattern: &str) -> Portability {
         python_regex: is_python_regex_compatible(&features),
         go_regexp: is_go_regexp_compatible(&features),
         java: Some(is_java_compatible(&features)),
+        dotnet: is_dotnet_compatible(&features),
+        ruby: is_ruby_compatible(&features),
     }
 }
 
@@ -287,6 +289,23 @@ fn is_java_compatible(features: &PatternFeatures) -> bool {
     !features.recursion && !features.subroutine && !features.posix_classes
 }
 
+/// .NET System.Text.RegularExpressions compatibility
+/// Supports: lookahead, lookbehind (variable-length), backreferences, atomic groups, conditionals
+/// Does NOT support: recursion, subroutines, possessive quantifiers (pre-.NET 7), POSIX classes
+fn is_dotnet_compatible(features: &PatternFeatures) -> bool {
+    !features.recursion
+        && !features.subroutine
+        && !features.possessive
+        && !features.posix_classes
+}
+
+/// Ruby (Oniguruma/Onigmo) compatibility
+/// Supports: lookahead, lookbehind, backreferences, atomic groups, possessive, POSIX classes, subroutines
+/// Does NOT support: PCRE-style recursion (?R), conditionals (?(1)...|...)
+fn is_ruby_compatible(features: &PatternFeatures) -> bool {
+    !features.conditional && !features.recursion
+}
+
 /// Get a human-readable explanation of compatibility issues
 #[allow(dead_code)]
 pub fn explain_compatibility(pattern: &str) -> Vec<String> {
@@ -345,6 +364,8 @@ mod tests {
         assert!(portability.rust_regex);
         assert!(portability.javascript);
         assert!(portability.go_regexp);
+        assert!(portability.dotnet);
+        assert!(portability.ruby);
     }
 
     #[test]
@@ -353,6 +374,8 @@ mod tests {
         assert!(!portability.rust_regex);
         assert!(portability.javascript);
         assert!(!portability.go_regexp);
+        assert!(portability.dotnet);
+        assert!(portability.ruby);
     }
 
     #[test]
@@ -361,6 +384,25 @@ mod tests {
         assert!(!portability.rust_regex);
         assert!(portability.javascript);
         assert!(!portability.go_regexp);
+        assert!(portability.dotnet);
+        assert!(portability.ruby);
+    }
+
+    #[test]
+    fn test_dotnet_blocks_possessive() {
+        // Possessive quantifiers are not supported in .NET (pre-.NET 7)
+        // Use lookahead to force string-based fallback where possessive is detected
+        let portability = check_portability(r"(?=.)a++");
+        assert!(!portability.dotnet);
+        assert!(portability.ruby); // Ruby (Oniguruma) supports possessive
+    }
+
+    #[test]
+    fn test_ruby_blocks_conditional() {
+        // Ruby doesn't support PCRE-style conditionals
+        let portability = check_portability(r"(?(1)a|b)");
+        assert!(!portability.ruby);
+        assert!(portability.dotnet); // .NET supports conditionals
     }
 
     // --- AST accuracy tests (false-positive prevention) ---

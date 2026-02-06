@@ -131,6 +131,16 @@ fn test_portability_check() {
         .stdout(predicate::str::contains("\"rust_regex\": false"));
 }
 
+#[test]
+fn test_portability_dotnet() {
+    re_x()
+        .args(["validate", r"\d+"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("\"dotnet\": true"))
+        .stdout(predicate::str::contains("\"ruby\": true"));
+}
+
 // --- apply command tests ---
 
 #[test]

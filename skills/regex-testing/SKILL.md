@@ -58,7 +58,7 @@ re-x apply 'PATTERN' 'REPL' --file path.txt -m  # multiline
 | `re-x test PAT INPUT` | Test matching | `matched`, `match_count`, `matches[]` |
 | `re-x test PAT --file F` | Test on file | Same, streaming for large files |
 | `re-x replace PAT REPL INPUT` | Preview replacement | `result`, `replacements_made` |
-| `re-x validate PAT` | Syntax + portability | `valid`, `portability{}`, `engine_required` |
+| `re-x validate PAT` | Syntax + portability (8 langs) | `valid`, `portability{}`, `engine_required` |
 | `re-x explain PAT` | Structured breakdown | `parts[]` with `token`, `type`, `desc` |
 | `re-x from-examples E1 E2..` | Infer pattern | `inferred[]` with `pattern`, `confidence` |
 | `re-x apply PAT REPL --file F` | Apply to file | `applied`, `replacements_made`, `backup_path` |

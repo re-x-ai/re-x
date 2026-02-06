@@ -109,6 +109,10 @@ pub struct Portability {
     /// Java java.util.regex
     #[serde(skip_serializing_if = "Option::is_none")]
     pub java: Option<bool>,
+    /// .NET System.Text.RegularExpressions
+    pub dotnet: bool,
+    /// Ruby (Oniguruma/Onigmo)
+    pub ruby: bool,
 }
 
 /// Error information for validation

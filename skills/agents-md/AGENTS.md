@@ -26,8 +26,9 @@ cargo bench              # Run benchmarks
 re-x test 'PATTERN' 'INPUT'                         # Test matching
 re-x test 'PATTERN' --file FILE                      # Test against file
 re-x replace 'PATTERN' 'REPLACEMENT' 'INPUT'         # Preview replacement
-re-x validate 'PATTERN'                              # Check syntax + portability
+re-x validate 'PATTERN'                              # Check syntax + portability (8 languages)
 re-x validate 'PATTERN' --target-lang javascript     # Check language compatibility
+# Supported: rust, javascript, python, go, java, pcre, dotnet, ruby
 re-x explain 'PATTERN'                               # Explain pattern structure
 re-x from-examples 'EX1' 'EX2' 'EX3'                # Infer pattern from examples
 re-x apply 'PAT' 'REPL' --file FILE                  # Apply replacement to file

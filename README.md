@@ -95,7 +95,9 @@ re-x validate '(?<=\d{3})\w+'
 #     "rust_regex": false,
 #     "javascript": false,
 #     "python_re": false,
-#     "pcre2": true
+#     "pcre2": true,
+#     "dotnet": true,
+#     "ruby": true
 #   }
 # }
 ```

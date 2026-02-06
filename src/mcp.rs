@@ -302,7 +302,7 @@ fn get_tools() -> Vec<ToolDefinition> {
                     },
                     "target_lang": {
                         "type": "string",
-                        "description": "Check compatibility for specific language (rust|python|javascript|go|java|pcre)"
+                        "description": "Check compatibility for specific language (rust|python|javascript|go|java|pcre|dotnet|ruby)"
                     }
                 },
                 "required": ["pattern"]
