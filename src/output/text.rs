@@ -124,6 +124,20 @@ pub fn format_validate_result(result: &ValidateResult) -> String {
                 "  Go regexp:     {}\n",
                 if portability.go_regexp { "✓" } else { "✗" }
             ));
+            if let Some(java) = portability.java {
+                output.push_str(&format!(
+                    "  Java:          {}\n",
+                    if java { "✓" } else { "✗" }
+                ));
+            }
+            output.push_str(&format!(
+                "  .NET:          {}\n",
+                if portability.dotnet { "✓" } else { "✗" }
+            ));
+            output.push_str(&format!(
+                "  Ruby:          {}\n",
+                if portability.ruby { "✓" } else { "✗" }
+            ));
         }
     } else {
         output.push_str("✗ Pattern is invalid\n");

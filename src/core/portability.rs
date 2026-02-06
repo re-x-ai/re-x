@@ -92,8 +92,9 @@ impl PatternFeatures {
         let lookbehind = pattern.contains("(?<=") || pattern.contains("(?<!");
         Self {
             start_anchor: pattern.starts_with('^')
-                || pattern.contains("(?m)") && pattern.contains('^'),
-            end_anchor: pattern.ends_with('$') || pattern.contains("(?m)") && pattern.contains('$'),
+                || (pattern.contains("(?m)") && pattern.contains('^')),
+            end_anchor: pattern.ends_with('$')
+                || (pattern.contains("(?m)") && pattern.contains('$')),
             word_boundary: pattern.contains(r"\b"),
             non_word_boundary: pattern.contains(r"\B"),
             unicode_classes: pattern.contains(r"\p{") || pattern.contains(r"\P{"),
@@ -293,10 +294,7 @@ fn is_java_compatible(features: &PatternFeatures) -> bool {
 /// Supports: lookahead, lookbehind (variable-length), backreferences, atomic groups, conditionals
 /// Does NOT support: recursion, subroutines, possessive quantifiers (pre-.NET 7), POSIX classes
 fn is_dotnet_compatible(features: &PatternFeatures) -> bool {
-    !features.recursion
-        && !features.subroutine
-        && !features.possessive
-        && !features.posix_classes
+    !features.recursion && !features.subroutine && !features.possessive && !features.posix_classes
 }
 
 /// Ruby (Oniguruma/Onigmo) compatibility

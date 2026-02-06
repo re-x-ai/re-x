@@ -56,8 +56,12 @@ pub fn replace_string(
 
                             if full_match.start() == full_match.end() {
                                 if last_end < input.len() {
-                                    result.push_str(&input[last_end..last_end + 1]);
-                                    last_end += 1;
+                                    let ch_len = input[last_end..]
+                                        .chars()
+                                        .next()
+                                        .map_or(1, |c| c.len_utf8());
+                                    result.push_str(&input[last_end..last_end + ch_len]);
+                                    last_end += ch_len;
                                 } else {
                                     break;
                                 }
@@ -117,8 +121,12 @@ fn replace_content(
 
                             if full_match.start() == full_match.end() {
                                 if last_end < content.len() {
-                                    result.push_str(&content[last_end..last_end + 1]);
-                                    last_end += 1;
+                                    let ch_len = content[last_end..]
+                                        .chars()
+                                        .next()
+                                        .map_or(1, |c| c.len_utf8());
+                                    result.push_str(&content[last_end..last_end + ch_len]);
+                                    last_end += ch_len;
                                 } else {
                                     break;
                                 }
@@ -268,8 +276,10 @@ fn replace_line(
 
                             if full_match.start() == full_match.end() {
                                 if last_end < line.len() {
-                                    result.push_str(&line[last_end..last_end + 1]);
-                                    last_end += 1;
+                                    let ch_len =
+                                        line[last_end..].chars().next().map_or(1, |c| c.len_utf8());
+                                    result.push_str(&line[last_end..last_end + ch_len]);
+                                    last_end += ch_len;
                                 } else {
                                     break;
                                 }
@@ -329,8 +339,12 @@ pub fn replace_with_captures(
 
                             if full_match.start() == full_match.end() {
                                 if last_end < input.len() {
-                                    result.push_str(&input[last_end..last_end + 1]);
-                                    last_end += 1;
+                                    let ch_len = input[last_end..]
+                                        .chars()
+                                        .next()
+                                        .map_or(1, |c| c.len_utf8());
+                                    result.push_str(&input[last_end..last_end + ch_len]);
+                                    last_end += ch_len;
                                 } else {
                                     break;
                                 }
@@ -527,5 +541,12 @@ mod tests {
         let result = replace_string(r"\d+", "NUM", "hello").unwrap();
         assert_eq!(result.result, "hello");
         assert_eq!(result.replacements_made, 0);
+    }
+
+    #[test]
+    fn test_replace_multibyte_utf8() {
+        // Zero-length match on multi-byte characters must not panic
+        let result = replace_with_captures(r"(?=.)", "|", "あいう", false).unwrap();
+        assert_eq!(result.result, "|あ|い|う");
     }
 }

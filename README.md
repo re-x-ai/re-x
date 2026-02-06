@@ -52,11 +52,8 @@ $ re-x test '(\d{3})-(\d{4})' 'Call 123-4567 now'
 # Cargo (Rust)
 cargo install re-x
 
-# Homebrew (macOS / Linux)
-brew install re-x
-
-# Download binary
-curl -fsSL https://github.com/re-x-ai/re-x/releases/latest/download/install.sh | sh
+# Download binary from GitHub Releases
+# https://github.com/re-x-ai/re-x/releases/latest
 ```
 
 ## Commands
@@ -80,8 +77,8 @@ cat data.csv | re-x test '^\d{4}-\d{2}-\d{2},'
 re-x replace '(\w+)@(\w+)' '$1 [at] $2' 'user@example.com'
 # → {"result": "user [at] example.com", "replacements_made": 1}
 
-# Dry-run on a file (never modifies the file)
-re-x replace 'http://' 'https://' --file urls.txt --dry-run
+# Preview replacements on a file (never modifies the file)
+re-x replace 'http://' 'https://' --file urls.txt
 ```
 
 ### `re-x validate` — Check syntax & portability
@@ -93,9 +90,12 @@ re-x validate '(?<=\d{3})\w+'
 #   "engine_required": "fancy-regex",
 #   "portability": {
 #     "rust_regex": false,
-#     "javascript": false,
-#     "python_re": false,
 #     "pcre2": true,
+#     "javascript": false,
+#     "python_re": true,
+#     "python_regex": true,
+#     "go_regexp": false,
+#     "java": true,
 #     "dotnet": true,
 #     "ruby": true
 #   }

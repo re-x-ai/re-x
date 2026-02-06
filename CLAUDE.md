@@ -25,9 +25,11 @@ Use `re-x` to test, validate, and apply regex:
 
 ```bash
 re-x test 'PAT' 'INPUT'            # Test matching
-re-x validate 'PAT'                # Syntax + portability
+re-x validate 'PAT'                # Syntax + portability (8 languages)
 re-x explain 'PAT'                 # Explain structure
 re-x replace 'PAT' 'REPL' 'INPUT'  # Preview replacement
-re-x apply 'PAT' 'REPL' --file F   # Apply to file
+re-x apply 'PAT' 'REPL' --file F   # Apply to file (with backup)
+re-x from-examples 'EX1' 'EX2'     # Infer pattern from examples
 re-x benchmark 'PAT'               # ReDoS check
+re-x --mcp                         # Start MCP server (JSON-RPC over stdio)
 ```

@@ -65,7 +65,9 @@ pub fn benchmark_pattern(
                 while pos < input.len() {
                     match re.find_from_pos(input, pos) {
                         Ok(Some(m)) => {
-                            pos = m.end().max(pos + 1);
+                            let next =
+                                pos + input[pos..].chars().next().map_or(1, |c| c.len_utf8());
+                            pos = m.end().max(next);
                         }
                         Ok(None) => break,
                         Err(_) => break,
