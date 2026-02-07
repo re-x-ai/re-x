@@ -9,6 +9,7 @@ repository = "https://github.com/re-x-ai/re-x"
 readme = "README.md"
 keywords = ["regex", "cli", "ai", "mcp", "testing"]
 categories = ["command-line-utilities", "development-tools", "text-processing"]
+exclude = [".github/", ".claude/", "skills/", "benches/", "AGENTS.md", "CONTRIBUTING.md", "SECURITY.md"]
 
 [features]
 default = ["cli", "mcp"]

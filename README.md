@@ -49,6 +49,9 @@ $ re-x test '(\d{3})-(\d{4})' 'Call 123-4567 now'
 ## Install
 
 ```bash
+# Homebrew (macOS / Linux)
+brew install re-x-ai/tap/re-x
+
 # Cargo (Rust)
 cargo install re-x
 
